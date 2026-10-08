@@ -1,0 +1,8 @@
+/* Espaciado del contenido principal de la tienda. */
+#inicio {
+  padding: 32px 16px;
+}
+
+#inicio section + section {
+  margin-top: 32px;
+}

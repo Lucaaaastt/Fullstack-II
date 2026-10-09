@@ -1,5 +1,5 @@
 
-export function Button({
+export function Boton({
   children,           // El contenido interno del botón (texto, íconos u otros elementos HTML).
   onClick,            // La función que se ejecutará al hacer clic en el botón.
   type = 'button',    // Tipo de botón HTML ('button', 'submit', 'reset'). Por defecto es 'button'.
@@ -18,3 +18,5 @@ export function Button({
     </button>
   );
 }
+
+

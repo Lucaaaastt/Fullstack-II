@@ -1,14 +1,17 @@
-import { NavLink } from '../atoms/NavLink';
+import { Enlace } from '../atoms/Enlace';
 import { Navbar } from '../molecules/Navbar';
 import '../../../style/Navbar.css';
 
 export function Header({ items = [] }) {
   return (
-    <header className="navbar">
-      <NavLink href="#inicio" className="navbar-brand">
+    <header className="site-header">
+      <Enlace href="/" className="site-brand">
         TIENDA JDR
-      </NavLink>
+      </Enlace>
       <Navbar items={items} />
     </header>
   );
 }
+
+
+

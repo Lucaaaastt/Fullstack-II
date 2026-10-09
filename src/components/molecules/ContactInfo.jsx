@@ -1,12 +1,14 @@
-import { Text } from '../atoms/Text';
+import { Texto } from '../atoms/Texto';
 
 export function ContactInfo() {
   return (
     <div className="footer-contact">
-      <Text variant="h2">Contacto</Text>
-      <Text>Dirección: Peñaflor Cerro Papa 324</Text>
-      <Text>Teléfono: +56 9 1234 5678</Text>
-      <Text>DUOC UC</Text>
+      <Texto variant="h2">Contacto</Texto>
+      <Texto>Dirección: Peñaflor Cerro Papa 324</Texto>
+      <Texto>Teléfono: +56 9 1234 5678</Texto>
+      <Texto>DUOC UC</Texto>
     </div>
   );
 }
+
+

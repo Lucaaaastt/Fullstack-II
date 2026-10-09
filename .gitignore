@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/Comenzando con los componentes atómicos.docx
+/Creando rutas con react-router-dom.docx

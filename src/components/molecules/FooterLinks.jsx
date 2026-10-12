@@ -1,13 +1,15 @@
-import { NavLink } from '../atoms/NavLink';
+import { Enlace } from '../atoms/Enlace';
 
 export function FooterLinks({ items = [] }) {
   return (
     <nav className="footer-links" aria-label="Enlaces del footer">
       {items.map((item) => (
-        <NavLink key={item.id} href={item.href} target={item.target} rel={item.rel}>
+        <Enlace key={item.id} href={item.href} target={item.target} rel={item.rel}>
           {item.text}
-        </NavLink>
+        </Enlace>
       ))}
     </nav>
   );
 }
+
+

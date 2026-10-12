@@ -1,10 +1,10 @@
-import { NavLink } from '../atoms/NavLink';
+import { Enlace } from '../atoms/Enlace';
 
 export function Navbar({ items = [] }) {
   return (
     <nav className="nav-links" aria-label="Navegación principal">
       {items.map((item) => (
-        <NavLink
+        <Enlace
           key={item.id}
           href={item.href}
           icon={item.icon}
@@ -13,8 +13,10 @@ export function Navbar({ items = [] }) {
           rel={item.rel}
         >
           {item.text}
-        </NavLink>
+        </Enlace>
       ))}
     </nav>
   );
 }
+
+

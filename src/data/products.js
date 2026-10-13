@@ -4,7 +4,7 @@ const products = [
     name: 'RDR2',
     description: 'Descripción breve del producto 1.',
     price: 10000,
-    image: 'https://picsum.photos/id/100/400/250'
+    image: 'public/red2.png'
   },
   {
     id: 2,

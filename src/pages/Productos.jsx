@@ -1,5 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import products from '../data/Products'; // <-- Importas los datos desde data/Products.js
+import products from '../data/products'; // <-- Importas los datos desde data/Products.js
 import ProductCard from '../components/organisms/ProductCard';
 
 function Productos() {

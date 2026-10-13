@@ -29,35 +29,28 @@ const products = [
   },
   {
     id: 6,
-    name: 'AGE OF EMPIRES',
+    name: 'EJ 6',
     description: 'Descripción breve del producto 4.',
     price: 10000,
     image: 'https://picsum.photos/id/103/400/250'
   },
   {
     id: 7,
-    name: 'AGE OF EMPIRES',
+    name: 'EJ 7',
     description: 'Descripción breve del producto 4.',
     price: 10000,
     image: 'https://picsum.photos/id/103/400/250'
   },
   {
     id: 8,
-    name: 'AGE OF EMPIRES',
+    name: 'EJ 8',
     description: 'Descripción breve del producto 4.',
     price: 10000,
     image: 'https://picsum.photos/id/103/400/250'
   },
   {
     id: 9,
-    name: 'AGE OF EMPIRES',
-    description: 'Descripción breve del producto 4.',
-    price: 10000,
-    image: 'https://picsum.photos/id/103/400/250'
-  },
-  {
-    id: 10,
-    name: 'AGE OF EMPIRES',
+    name: 'EJ 9',
     description: 'Descripción breve del producto 4.',
     price: 10000,
     image: 'https://picsum.photos/id/103/400/250'

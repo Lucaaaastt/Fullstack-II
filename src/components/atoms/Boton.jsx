@@ -19,4 +19,6 @@ export function Boton({
   );
 }
 
+export default Boton;
+
 

@@ -21,7 +21,7 @@ function Aplicacion() {
     { id: 'nosotros', text: 'Sobre nosotros', href: '/sobre-nosotros' },
     {
       id: 'github', text: 'GitHub',
-      href: 'https://github.com/Lucaaaastt/Fullstack-II/tree/main',
+      href: 'https://github.com/Lucaaaastt/Fullstack-II',
       target: '_blank', rel: 'noopener noreferrer',
     },
   ]

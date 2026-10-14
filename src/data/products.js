@@ -4,21 +4,21 @@ const products = [
     name: 'RDR2',
     description: 'Descripción breve del producto 1.',
     price: 10000,
-    image: '/public/Image/rd2.avif'
+    image: '/Image/rd2.avif'
   },
   {
     id: 2,
     name: 'GHOST OF TSUSHIMA',
     description: 'Descripción breve del producto 2.',
     price: 10000,
-    image: '/public/Image/got.png'
+    image: '/Image/got.png'
   },
   {
     id: 3,
     name: 'GEARS OF WAR: E-DAY',
     description: 'Descripción breve del producto 3.',
     price: 10000,
-    image: '/public/Image/gwe.png'
+    image: '/Image/gwe.png'
   },
   {
     id: 5,

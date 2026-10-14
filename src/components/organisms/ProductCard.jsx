@@ -3,10 +3,12 @@ import Image from '../atoms/Image';
 import { Boton } from '../atoms/Boton';
 import CardBody from '../molecules/CardBody';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 import '../../../style/ProductCard.css';
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   if (!product) return null;
 
@@ -23,7 +25,7 @@ function ProductCard({ product }) {
           Ver detalles
         </Boton>
 
-        <Boton variant="succes">
+        <Boton variant="success" onClick={() => addToCart(product)}>
           Agregar a Carro
         </Boton>
       </Card.Body>

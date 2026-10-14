@@ -6,7 +6,7 @@
 
 /* Estilos sencillos para Sobre nosotros. */
 .sobre-nosotros {
-  max-width: 800px;
+  max-width: 100%;
   margin-left: 0;
   margin-right: 0;
   text-align: left;
@@ -24,11 +24,74 @@
 }
 
 .sobre-nosotros p {
+  max-width: 800px;
   line-height: 1.7;
 }
 
 .sobre-nosotros .integrante-equipo {
-  margin-top: 8px;
+  margin: 0;
+  padding: 16px 28px;
+  border: 2px solid #b83b3b;
+  border-radius: 12px;
+  background-color: transparent;
+  text-align: center;
   color: var(--text-h);
+}
+
+.sobre-nosotros .titulo-equipo {
+  text-align: center;
+}
+
+
+.equipo-integrantes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+@media (max-width: 600px) {
+  .equipo-integrantes {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.sobre-nosotros .titulo-presentacion {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  border-left: none;
+  text-align: center;
+}
+
+.sobre-nosotros .texto-presentacion {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+
+.lenguajes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.lenguaje {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.icono-lenguaje {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 

@@ -11,14 +11,14 @@ const products = [
     name: 'GHOST OF TSUSHIMA',
     description: 'Descripción breve del producto 2.',
     price: 10000,
-    image: 'https://picsum.photos/id/101/400/250'
+    image: '/Image/got.png'
   },
   {
     id: 3,
     name: 'GEARS OF WAR: E-DAY',
     description: 'Descripción breve del producto 3.',
     price: 10000,
-    image: 'https://picsum.photos/id/102/400/250'
+    image: '/Image/gwe.png'
   },
   {
     id: 5,

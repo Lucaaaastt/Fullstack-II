@@ -1,7 +1,7 @@
 import { Container, Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Texto } from "../components/atoms/Texto";
-import products from "../data/Products";
+import products from "../data/products";
 import Image from "../components/atoms/Image";
 
 function ProductoDetalle(){

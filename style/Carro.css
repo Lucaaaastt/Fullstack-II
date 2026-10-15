@@ -1,0 +1,156 @@
+/* Contenedor principal de la página */
+.carro-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  color: #ffffff;
+}
+
+.titulo-carro {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #444;
+  padding-bottom: 10px;
+}
+
+/* Distribución en 2 columnas: Lista a la izquierda, Resumen a la derecha */
+.carro-contenido {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.carro-lista-container {
+  flex: 2;
+}
+
+.carro-resumen-container {
+  flex: 1;
+  position: sticky;
+  top: 20px;
+}
+
+/* --- ESTILOS DE CADA ÍTEM (ItemCarro) --- */
+.item-carro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  gap: 20px;
+}
+
+/* Control del tamaño de la imagen */
+.item-carro-img {
+  width: 80px;
+  height: 100px;
+  object-fit: cover; /* Evita que la imagen se deforme */
+  border-radius: 6px;
+}
+
+.item-carro-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.item-carro-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.item-carro-price {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Controles de cantidad y acciones */
+.item-carro-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cantidad-item {
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+
+.subtotal-item {
+  font-weight: bold;
+  color: #28a745;
+  min-width: 70px;
+  text-align: right;
+}
+
+.btn-remove {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* --- ESTILOS DEL RESUMEN (ResumenCarro) --- */
+.resumen-carro {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.resumen-carro-titulo {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.resumen-carro-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-top: 1px solid #333;
+  padding-top: 15px;
+}
+
+.precio-total {
+  color: #28a745;
+  font-size: 1.4rem;
+}
+
+.btn-pagar {
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.btn-vaciar {
+  width: 100%;
+  padding: 8px;
+  background-color: #6c757d;
+}
+
+/* Estado de carro vacío */
+.lista-carro-vacia {
+  background-color: #1e1e1e;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #aaa;
+}

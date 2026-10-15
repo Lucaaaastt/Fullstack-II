@@ -1,12 +1,18 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import products from '../data/products';
 import ProductCard from '../components/organisms/ProductCard';
-import '../../style/DetalleProducto.css'
+import '../../style/DetalleProducto.css';
 
 function Productos() {
   return (
     <Container className="my-5 catalogo-container">
-      <h1 className="mb-4 catalogo-titulo">CATÁLOGO</h1>
+      <div className="catalog-header text-center mb-5">
+        <h1 className="catalog-title">
+        <span className="title-accent">Catálogo</span>
+        </h1>
+        <div className="title-glow-line"></div>
+      </div>
+
       <Row className="g-4">
         {products.map((product) => (
           <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="d-flex align-items-stretch">

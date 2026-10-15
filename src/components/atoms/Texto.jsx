@@ -1,5 +1,9 @@
+export function Texto({ variant = 'p', children, className = '', ...props }) {
+  const Component = variant;
 
-export function Texto({ children, variant = 'p', className }) {
-   const Tag = variant;
-   return <Tag className={className}>{children}</Tag>;
+  return (
+    <Component className={className} {...props}>
+      {children}
+    </Component>
+  );
 }

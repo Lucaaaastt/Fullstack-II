@@ -1,8 +1,8 @@
 import { useCart } from '../context/CartContext'
 import ListaCarro from '../components/organisms/ListaCarro'
 import ResumenCarro from '../components/molecules/ResumenCarro'
-import { Texto } from '../components/atoms/Texto'
 import '../../style/Carro.css'
+
 
 export function Carro() {
   const {
@@ -22,7 +22,7 @@ export function Carro() {
 
   return (
     <div className="carro-page" style={{ padding: '20px', color: '#fff' }}>
-      <Texto className="titulo-carro">Carro de Compras</Texto>
+      <span className="title-accent">CARRO COMPRAS</span>
 
       <div
         className="carro-contenido"

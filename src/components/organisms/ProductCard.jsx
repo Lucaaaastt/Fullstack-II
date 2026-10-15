@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Card, Modal } from 'react-bootstrap';
+import { Card, Modal, Button } from 'react-bootstrap';
 import Image from '../atoms/Image';
-import { Boton } from '../atoms/Boton';
 import CardBody from '../molecules/CardBody';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
@@ -21,40 +20,59 @@ function ProductCard({ product }) {
 
   return (
     <>
-      <Card className="product-card h-100 shadow-sm">
-        <Image src={product.image} alt={product.name} />
-        <Card.Body className="d-flex flex-column justify-content-between">
+      <Card className="product-card h-100 shadow-sm bg-dark text-white border-secondary">
+        {/* Imagen recortada a 260px estandarizados */}
+        <Image 
+          src={product.image} 
+          alt={product.name} 
+          className="card-img-top" 
+        />
+        
+        <Card.Body className="d-flex flex-column justify-content-between p-3">
+          {/* Componente que renderiza Título y Precio con espacio reservado */}
           <CardBody
             title={product.name}
-            description={product.description}
             price={product.price}
           />
-          <Boton variant="primary" onClick={() => navigate(`/productos/${product.id}`)}>
-            Ver detalles
-          </Boton>
 
-          <Boton variant="success" onClick={handleAddToCart}>
-            Agregar a Carro
-          </Boton>
+          {/* Botones pegados siempre a la parte inferior de la tarjeta */}
+          <div className="d-grid gap-2 mt-auto pt-2">
+            <Button 
+              variant="outline-light" 
+              size="sm"
+              onClick={() => navigate(`/productos/${product.id}`)}
+            >
+              Ver detalles
+            </Button>
+
+            <Button 
+              variant="danger" 
+              size="sm"
+              onClick={handleAddToCart}
+            >
+              Agregar a Carro
+            </Button>
+          </div>
         </Card.Body>
       </Card>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      {/* Modal de confirmación */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered className="text-dark">
         <Modal.Header closeButton>
-          <Modal.Title style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-            Producto Añadido!
+          <Modal.Title className="fw-bold fs-5">
+            PRODUCTO AÑADIDO!
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          ¿Desea continuar?
+          ¿DESEA CONTINUAR?
         </Modal.Body>
         <Modal.Footer>
-          <Boton variant="secondary" onClick={() => setShowModal(false)}>
-            Seguir comprando
-          </Boton>
-          <Boton variant="primary" onClick={() => navigate('/carro')}>
-            Ir a pagar
-          </Boton>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            SEGUIR COMPRANDO
+          </Button>
+          <Button variant="primary" onClick={() => navigate('/carro')}>
+            IR A PAGAR
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

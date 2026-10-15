@@ -1,14 +1,23 @@
+// src/components/molecules/CardBody.jsx
+import React from 'react';
 import { Texto } from '../atoms/Texto';
 
 function CardBody({ title, description, price }) {
   return (
-    <>
-      <Texto variant="h5" className="card-title fw-bold mb-2">{title}</Texto>
-      <Texto variant="p" className="card-text text-muted mb-2">{description}</Texto>
-      <Texto variant="p" className="fw-bold text-primary mb-3">
+    <div className="card-body-content text-center">
+      <Texto variant="h5" className="product-card-title fw-bold">
+        {title}
+      </Texto>
+      {description && (
+        <Texto variant="p" className="text-light small my-2">
+          {description}
+        </Texto>
+      )}
+
+      <Texto variant="h4" className="text-danger fw-bold my-2">
         ${price}
       </Texto>
-    </>
+    </div>
   );
 }
 

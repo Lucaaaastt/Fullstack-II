@@ -1,34 +1,28 @@
-// src/components/organism/HeroBanner.jsx
 import React from 'react';
-import { Carousel, Container, Row, Col } from 'react-bootstrap';
+import { Carousel, Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Boton } from '../atoms/Boton'; 
 
-const FEATURED_GAMES = [
+const JuegosNovedad = [
   {
-    id: '10',
-    title: 'Cyber Odyssey 2088',
-    subtitle: 'El RPG futurista del año',
-    description: 'Explora una metrópolis llena de neon, misiones peligrosas y tecnología avanzada.',
-    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
-    badge: '🔥 Destacado',
-    price: '$59.99'
+    id: 11,
+    name: 'Cyberpunk 2077',
+    description: 'Cyberpunk 2077 es un RPG de aventura y acción de mundo abierto ambientado en el futuro sombrío de Night City, una peligrosa megalópolis obsesionada con el poder, el glamur y las incesantes modificaciones corporales.',
+    price: 39990,
+    image: '/Image/cb77.webp'
   },
   {
-    id: '11',
-    title: 'Mythic Realm: Awakening',
-    subtitle: 'Oferta de Pre-orden',
-    description: 'Enfrenta criaturas legendarias en un mundo abierto masivo.',
-    image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
-    badge: '⚡ 20% OFF',
-    price: '$49.99'
+    id: 12,
+    name: 'Kingdom Come: Deliverance II',
+    description: 'Un emocionante RPG de acción con mucha narrativa y un exuberante mundo abierto situado en la Europa medieval del siglo XV. No te pierdas la aventura medieval definitiva donde vivirás un viaje de proporciones épicas de la mano del joven Henry.',
+    price: 44990,
+    image: '/Image/kc2.png'
   },
   {
-    id: '12',
-    name: 'Starlight Horizon',
-    description: 'Exploración espacial y simulación de colonias.',
-    price: 39.99,
-    image: 'https://via.placeholder.com/400x225?text=Starlight+Horizon'
+    id: 3,
+    name: 'Gears of War: E-Day',
+    description: 'Experimenta el Día de la Emergencia, la brutal historia original de una de las franquicias de disparos en tercera persona más aclamadas del mundo de los videojuegos.',
+    price: 59990,
+    image: '/Image/gwe.png'
   }
 ];
 
@@ -38,13 +32,13 @@ export function Carrusel() {
   return (
     <section className="hero-banner my-4">
       <Container fluid="lg">
-        <Carousel fade interval={5000} className="shadow-lg rounded overflow-hidden">
-          {FEATURED_GAMES.map((game) => (
+        <Carousel fade interval={5000} className="shadow-lg rounded overflow-hidden border border-secondary">
+          {JuegosNovedad.map((game) => (
             <Carousel.Item key={game.id}>
               <div
                 className="hero-slide p-4 p-md-5 d-flex align-items-center"
                 style={{
-                  backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.85) 35%, rgba(0, 0, 0, 0.2)), url(${game.image})`,
+                  backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.9) 40%, rgba(0, 0, 0, 0.3)), url(${game.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   minHeight: '420px'
@@ -52,23 +46,31 @@ export function Carrusel() {
               >
                 <Row className="w-100">
                   <Col md={8} lg={6} className="text-white">
-                    <span className="badge bg-danger mb-2 fs-6 px-3 py-2">
-                      {game.badge}
-                    </span>
-                    <h1 className="display-4 fw-bold">{game.title}</h1>
-                    <h5 className="text-warning mb-3">{game.subtitle}</h5>
+                    {game.badge && (
+                      <span className="badge bg-danger mb-2 fs-6 px-3 py-2 text-uppercase fw-bold">
+                        {game.badge}
+                      </span>
+                    )}
+
+                    <h1 className="display-4 fw-bold">{game.name || game.title}</h1>
+                    
                     <p className="lead d-none d-md-block mb-4 text-light">
                       {game.description}
                     </p>
+
                     <div className="d-flex align-items-center gap-3">
-                      <Boton 
-                        variant="primary" 
+                      <Button 
+                        variant="danger" 
                         size="lg"
+                        className="fw-bold text-uppercase px-4 py-2"
                         onClick={() => navigate(`/productos/${game.id}`)}
                       >
-                        Ver producto
-                      </Boton>
-                      <span className="fs-4 fw-bold text-white">{game.price}</span>
+                        VER PRODUCTO
+                      </Button>
+
+                      <span className="fs-3 fw-bold text-danger m-0">
+                        ${game.price}
+                      </span>
                     </div>
                   </Col>
                 </Row>

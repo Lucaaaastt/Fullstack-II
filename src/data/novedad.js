@@ -1,23 +1,23 @@
 export const Novedad = [
   {
-    id: '10',
-    name: 'Cyber Odyssey 2088',
-    description: 'RPG de acción futurista en un mundo abierto.',
-    price: 59.99,
-    image: 'https://via.placeholder.com/400x225?text=Cyber+Odyssey'
+    id: 11,
+    name: 'Cyberpunk 2077',
+    description: 'Cyberpunk 2077 es un RPG de aventura y acción de mundo abierto ambientado en el futuro sombrío de Night City, una peligrosa megalópolis obsesionada con el poder, el glamur y las incesantes modificaciones corporales.',
+    price: 39990,
+    image: '/Image/cb77.webp'
   },
   {
-    id: '11',
-    name: 'Mythic Realm: Awakening',
-    description: 'Aventura de fantasía oscura y combates épicos.',
-    price: 49.99,
-    image: 'https://via.placeholder.com/400x225?text=Mythic+Realm'
+    id: 12,
+    name: 'Kingdom Come: Deliverance II',
+    description: 'Un emocionante RPG de acción con mucha narrativa y un exuberante mundo abierto situado en la Europa medieval del siglo XV. No te pierdas la aventura medieval definitiva donde vivirás un viaje de proporciones épicas de la mano del joven Henry.',
+    price: 44990,
+    image: '/Image/kc2.png'
   },
   {
-    id: '12',
-    name: 'Starlight Horizon',
-    description: 'Exploración espacial y simulación de colonias.',
-    price: 39.99,
-    image: 'https://via.placeholder.com/400x225?text=Starlight+Horizon'
+    id: 3,
+    name: 'Gears of War: E-Day',
+    description: 'Experimenta el Día de la Emergencia, la brutal historia original de una de las franquicias de disparos en tercera persona más aclamadas del mundo de los videojuegos.',
+    price: 59990,
+    image: '/Image/gwe.png'
   }
 ];

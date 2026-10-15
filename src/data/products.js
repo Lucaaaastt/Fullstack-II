@@ -4,7 +4,7 @@ const products = [
     name: 'RDR2',
     description: 'Descripción breve del producto 1.',
     price: 10000,
-    image: 'public/red2.png'
+    image: '/Image/red2.png'
   },
   {
     id: 2,
@@ -51,6 +51,27 @@ const products = [
   {
     id: 9,
     name: 'EJ 9',
+    description: 'Descripción breve del producto 4.',
+    price: 10000,
+    image: 'https://picsum.photos/id/103/400/250'
+  },
+    {
+    id: 10,
+    name: 'Cyber Odyssey 2088',
+    description: 'Descripción breve del producto 4.',
+    price: 10000,
+    image: 'https://picsum.photos/id/103/400/250'
+  },
+    {
+    id: 11,
+    name: 'Mythic Realm: Awakening',
+    description: 'Descripción breve del producto 4.',
+    price: 10000,
+    image: 'https://picsum.photos/id/103/400/250'
+  },
+    {
+    id: 12,
+    name: 'Starlight Horizon',
     description: 'Descripción breve del producto 4.',
     price: 10000,
     image: 'https://picsum.photos/id/103/400/250'

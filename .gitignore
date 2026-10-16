@@ -25,3 +25,5 @@ dist-ssr
 
 /Comenzando con los componentes atómicos.docx
 /Creando rutas con react-router-dom.docx
+
+coverage/

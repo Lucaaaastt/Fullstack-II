@@ -21,8 +21,3 @@ export function Header({ items = [] }) {
     </header>
   );
 }
-
-
-
-
-

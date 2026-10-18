@@ -1,13 +1,13 @@
 import '../../setupTests';
-import React from 'react';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Header } from '../../../components/organisms/Header';
 
 describe('Organismo Header', () => {
   const itemsPrueba = [
-    { text: 'Inicio', path: '/' },
-    { text: 'Catalogo', path: '/catalogo' }
+    { id: 'inicio', text: 'Inicio', href: '/' },
+    { id: 'catalogo', text: 'Catalogo', href: '/productos' }
   ];
 
   it('HEA-01: muestra la marca principal y la barra de navegacion', () => {
@@ -55,3 +55,4 @@ describe('Organismo Header', () => {
     expect(tituloModal.textContent).toBe('Iniciar sesión');
   });
 });
+

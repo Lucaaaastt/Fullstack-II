@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Carrusel } from '../components/organisms/Carrusel.jsx';
 import { Novedades } from '../components/organisms/Novedad.jsx';
 

@@ -13,7 +13,7 @@ function ProductoDetalle() {
   const { addToCart } = useCart();
   const [showModal, setShowModal] = useState(false);
 
-  const producto = products.find((p) => p.id === parseInt(id));
+  const producto = products.find((p) => String(p.id) === id);
 
   if (!producto) {
     return (

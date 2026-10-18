@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Container, Row, Col } from 'react-bootstrap';
 import ProductCard from './ProductCard.jsx';
 import { Novedad } from '../../data/novedad.js';

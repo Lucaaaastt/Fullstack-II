@@ -1,21 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Campo } from '../atoms/Campo';
 import { Boton } from '../atoms/Boton';
 
 function ModalEditarProducto({ mostrar, producto, onCerrar, onGuardar }) {
-const [nombre, setNombre] = useState('');
-const [descripcion, setDescripcion] = useState('');
-const [precio, setPrecio] = useState('');
+const [nombre, setNombre] = useState(producto?.name || '');
+const [descripcion, setDescripcion] = useState(producto?.description || '');
+const [precio, setPrecio] = useState(String(producto?.price ?? ''));
 const [mensaje, setMensaje] = useState('');
 
-useEffect(() => {
-    if (producto) {
-        setNombre(producto.name);
-        setDescripcion(producto.description);
-        setPrecio(String(producto.price));
-    }
-}, [producto]);
+
 
 function guardarCambios(e) {
     e.preventDefault();
@@ -92,3 +86,4 @@ return (
 }
 
 export default ModalEditarProducto;
+

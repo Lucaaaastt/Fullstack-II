@@ -9,7 +9,7 @@ import SobreNosotros from './pages/SobreNosotros'
 import Carro from './pages/Carro'
 import GestionProductos from './pages/GestionProductos'
 import '../style/Aplicacion.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function Aplicacion() {
   const navItems = [

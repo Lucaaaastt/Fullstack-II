@@ -5,10 +5,6 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  {
-    files: ['src/test/**/*.{js,jsx}'],
-    languageOptions: { globals: globals.jasmine },
-  },
   globalIgnores(['dist', 'coverage']),
   {
     files: ['**/*.{js,jsx}'],
@@ -22,5 +18,14 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    files: ['src/test/**/*.{js,jsx}'],
+    languageOptions: { globals: globals.jasmine },
+  },
+  {
+    files: ['src/context/CartContext.jsx'],
+    rules: {
+      'react-refresh/only-export-components': ['error', { allowExportNames: ['useCart'] }],
+    },
+  },
 ])
-

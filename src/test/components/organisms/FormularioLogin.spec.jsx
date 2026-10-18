@@ -1,5 +1,5 @@
 import '../../setupTests';
-import React from 'react';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import { FormularioLogin } from '../../../components/organisms/FormularioLogin';
 
@@ -27,22 +27,13 @@ describe('Organismo FormularioLogin', () => {
     expect(mockOnCerrar).toHaveBeenCalledTimes(1);
   });
 
-  it('LOG-03: muestra el mensaje de confirmacion al enviar el formulario', () => {
-    render(<FormularioLogin mostrar={true} onCerrar={mockOnCerrar} />);
-
-    // Llenamos los campos para satisfacer la propiedad 'required'
-    const inputCorreo = screen.getByLabelText(/correo/i);
-    const inputContrasena = screen.getByLabelText(/contraseña/i);
-
-    fireEvent.change(inputCorreo, { target: { value: 'usuario@prueba.com' } });
-    fireEvent.change(inputContrasena, { target: { value: '123456' } });
-
-    // Hacemos clic en Ingresar
-    const botonIngresar = screen.getByRole('button', { name: 'Ingresar' });
-    fireEvent.click(botonIngresar);
-
-    expect(
-      screen.getByText('El formulario está listo. La comprobación de usuarios aún está pendiente.')
-    ).toBeTruthy();
+  it('LOG-03: rechaza credenciales incorrectas de administrador', () => {
+    // Reviso el aviso actual sin abrir alertas ni iniciar una sesion.
+    const aviso = spyOn(window, 'alert');
+    render(<FormularioLogin mostrar={true} onCerrar={mockOnCerrar} tipo="admin" />);
+    fireEvent.change(screen.getByLabelText(/correo/i), { target: { value: 'usuario@prueba.com' } });
+    fireEvent.change(screen.getByLabelText(/Contrase/i), { target: { value: 'incorrecta' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Ingresar' }));
+    expect(aviso).toHaveBeenCalledOnceWith(jasmine.stringMatching(/incorrectos/));
   });
 });

@@ -19,7 +19,7 @@ export function Header({ items = [] }) {
         <Boton className="header-button header-button-register" onClick={() => setFormulario('registro')}>Registrarse</Boton>
         <Boton className="header-button" onClick={() => setFormulario('admin')}>Iniciar sesión admin</Boton>
       </div>
-      <FormularioCuenta tipo={formulario} onCerrar={() => setFormulario(null)} /><FormularioLogin mostrar={formulario === 'admin'} onCerrar={() => setFormulario(null)} tipo="admin"/>
+      <FormularioCuenta tipo={formulario === 'admin' ? null : formulario} onCerrar={() => setFormulario(null)} /><FormularioLogin mostrar={formulario === 'admin'} onCerrar={() => setFormulario(null)} tipo="admin"/>
     </header>
   );
 }

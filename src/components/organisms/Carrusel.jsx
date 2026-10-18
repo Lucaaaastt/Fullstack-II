@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Carousel, Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 // src/components/molecules/CardBody.jsx
-import React from 'react';
+
 import { Texto } from '../atoms/Texto';
 
 function CardBody({ title, description, price }) {

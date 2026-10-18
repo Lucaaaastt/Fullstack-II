@@ -1,5 +1,5 @@
 import '../../setupTests';
-import React from 'react';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import { FormularioCuenta } from '../../../components/organisms/FormularioCuenta';
 

@@ -76,12 +76,12 @@ function GestionProductos() {
                 </Col>
             </Row>
 
-            <ModalEditarProducto
+            {productoEditar && <ModalEditarProducto
                 mostrar={Boolean(productoEditar)}
                 producto={productoEditar}
                 onCerrar={() => setProductoEditar(null)}
                 onGuardar={guardarProducto}
-            />
+            />}
 
             <ModalEliminarProducto
                 mostrar={Boolean(productoEliminar)}

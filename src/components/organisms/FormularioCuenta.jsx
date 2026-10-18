@@ -23,6 +23,7 @@ export function FormularioCuenta({ tipo, onCerrar }) {
       nombre: campos.get('nombre') || '',
       correo: campos.get('correo') || '',
       contrasena: campos.get('contrasena') || '',
+      confirmarContrasena: campos.get('confirmarContrasena') || '',
     };
 
     // La validación está en context, acá solo muestro el resultado.

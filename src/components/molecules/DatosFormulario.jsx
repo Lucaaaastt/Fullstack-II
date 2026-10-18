@@ -16,6 +16,15 @@ export function DatosFormulario({ registro = false }) {
         tipo="password"
         autoComplete={registro ? 'new-password' : 'current-password'}
       />
+      {registro && (
+        <Campo
+          id={`${prefijo}-confirmar-contrasena`}
+        nombre="confirmarContrasena"
+        etiqueta="Confirmar contraseña"
+        tipo="password"
+        autoComplete="new-password"
+      />
+)}
     </>
   );
 }

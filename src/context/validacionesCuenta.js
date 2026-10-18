@@ -1,4 +1,4 @@
-export function validarCuenta({ nombre = '', correo = '', contrasena = '' }, registro) {
+export function validarCuenta({ nombre = '', correo = '', contrasena = '' , confirmarContrasena = '',}, registro) {
   // Primero reviso que no dejen campos vacíos o con puros espacios.
   if (registro && !nombre.trim()) {
     return 'Ingresa tu nombre.';
@@ -10,6 +10,10 @@ export function validarCuenta({ nombre = '', correo = '', contrasena = '' }, reg
 
   if (!contrasena.trim()) {
     return 'Ingresa tu contraseña.';
+  }
+
+  if (registro && contrasena !== confirmarContrasena) {
+    return 'Las contraseñas no coinciden.';
   }
 
   // Le saco los espacios de los extremos y paso el correo a minusculas.

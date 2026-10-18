@@ -3,7 +3,6 @@ import ListaCarro from '../components/organisms/ListaCarro'
 import ResumenCarro from '../components/molecules/ResumenCarro'
 import '../../style/Carro.css'
 
-
 export function Carro() {
   const {
     cartItems,
@@ -21,32 +20,35 @@ export function Carro() {
   }
 
   return (
-    <div className="carro-page" style={{ padding: '20px', color: '#fff' }}>
-      <span className="title-accent">CARRO COMPRAS</span>
+    <div className="carro-page">
+      <h1 className="titulo-carro">CARRO COMPRAS</h1>
 
-      <div
-        className="carro-contenido"
-        style={{ display: 'flex', gap: '20px', marginTop: '20px' }}
-      >
-        <div style={{ flex: 2 }}>
-          <ListaCarro
-            items={cartItems}
-            onIncrease={increaseQuantity}
-            onDecrease={decreaseQuantity}
-            onRemove={removeFromCart}
-          />
+      {cartItems.length === 0 ? (
+        /* VISTA SI EL CARRO ESTÁ VACÍO (SE CENTRA AUTOMÁTICAMENTE) */
+        <div className="lista-carro-vacia">
+          CARRO VACIO
         </div>
+      ) : (
+        /* VISTA DE 2 COLUMNAS SI HAY PRODUCTOS */
+        <div className="carro-contenido">
+          <div className="carro-lista-container">
+            <ListaCarro
+              items={cartItems}
+              onIncrease={increaseQuantity}
+              onDecrease={decreaseQuantity}
+              onRemove={removeFromCart}
+            />
+          </div>
 
-        {cartItems.length > 0 && (
-          <div style={{ flex: 1 }}>
+          <div className="carro-resumen-container">
             <ResumenCarro
               total={total}
               onClear={clearCart}
               onCheckout={handleCheckout}
             />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

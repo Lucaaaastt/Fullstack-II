@@ -1,12 +1,11 @@
-/* Contenedor principal para no expandirse de más en pantallas anchas */
+
 .detalle-container {
   max-width: 1000px;
 }
 
-/* Envoltorio de la imagen */
 .detalle-imagen-box {
   width: 100%;
-  max-height: 480px; /* Altura máxima permitida */
+  max-height: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,10 +13,63 @@
   overflow: hidden;
 }
 
-/* Imagen de detalle */
 .detalle-imagen {
   max-height: 480px;
   max-width: 100%;
   width: auto;
-  object-fit: contain; /* Evita que la imagen se deforme o desborde */
+  object-fit: contain;
+}
+
+.modal-custom-dark .modal-content {
+  background-color: #121212;
+  color: #ffffff;
+  border: 1px solid #2a2a2a;
+}
+
+.modal-custom-dark .modal-header,
+.modal-custom-dark .modal-footer {
+  border-color: #2a2a2a;
+}
+
+.modal-custom-dark .btn-close {
+  filter: invert(1);
+}
+
+.btn-seguir-comprando {
+  background-color: #2c2c2c !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.btn-ir-pagar {
+  background-color: #7a1c1c !important; 
+  color: #ffffff !important;
+  border: none !important;
+}
+
+body .modal-content {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+}
+
+body .modal-header,
+body .modal-footer {
+  border-color: #2a2a2a !important;
+}
+
+body .modal-header .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+body .modal-footer .btn-secondary {
+  background-color: #383838 !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+
+body .modal-footer .btn-primary {
+  background-color: #7a1c1c !important;
+  border: none !important;
+  color: #ffffff !important;
 }

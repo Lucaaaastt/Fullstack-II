@@ -5,6 +5,7 @@ import { Texto } from "../components/atoms/Texto";
 import { useCart } from "../context/CartContext";
 import products from "../data/products";
 import Image from "../components/atoms/Image";
+import '../../style/DetalleProducto.css';
 
 function ProductoDetalle() {
   const { id } = useParams();
@@ -74,8 +75,7 @@ function ProductoDetalle() {
         </Row>
       </Card>
 
-      {/* OPC COMPRA */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered className="text-dark">
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered contentClassName="modal-custom-dark">
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold fs-5">
             PRODUCTO AÑADIDO!

@@ -3,14 +3,44 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Texto } from '../components/atoms/Texto';
 import FiltrosProductos from '../components/organisms/FiltrosProductos';
 import ListaProductos from '../components/organisms/ListaProductos';
+import ModalEditarProducto from '../components/organisms/ModalEditarProducto';
 import products from '../data/products';
 
 
 function GestionProductos() {
     const [busqueda, setBusqueda] = useState('');
     const [orden, setOrden] = useState('Nombre (A-Z)');
+    const [productoEditar, setProductoEditar] = useState(null);
+    const [mostrarModal, setMostrarModal] = useState(false);
+    const [productos, setProductos] = useState(products);
 
-    const productosFiltrados = products.filter((producto) =>
+    function abrirModalEditar(producto) {
+        setProductoEditar(producto);
+        setMostrarModal(true);
+    }
+
+    function cerrarModal() {
+        setMostrarModal(false);
+        setProductoEditar(null);
+    }
+
+    function guardarProducto(productoActualizado) {
+        if (!Number.isFinite(productoActualizado.price) ||
+            productoActualizado.price <= 0) {
+            return;
+        }
+
+        setProductos(actuales =>
+            actuales.map(producto =>
+                producto.id === productoActualizado.id
+                    ? productoActualizado
+                    : producto
+            )
+        );
+        cerrarModal();
+    }
+
+    const productosFiltrados = productos.filter((producto) =>
         producto.name.toLowerCase().includes(busqueda.toLowerCase())
     );
 
@@ -40,9 +70,16 @@ function GestionProductos() {
                 <Col md={9} className="productos">
                     <Texto variant="h1">Productos</Texto>
 
-                    <ListaProductos productos={productosOrdenados} />
+                    <ListaProductos productos={productosOrdenados} onEditar={abrirModalEditar}/>
                 </Col>
             </Row>
+
+            <ModalEditarProducto
+                mostrar={mostrarModal}
+                producto={productoEditar}
+                onCerrar={cerrarModal}
+                onGuardar={guardarProducto}
+            />
         </Container>
     );
 }

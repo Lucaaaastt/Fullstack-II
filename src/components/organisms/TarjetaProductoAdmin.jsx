@@ -3,7 +3,7 @@ import Image from '../atoms/Image';
 import CardBody from '../molecules/CardBody';
 import { Boton } from '../atoms/Boton';
 
-function TarjetaProductoAdmin({ product }) {
+function TarjetaProductoAdmin({ product, onEditar, onEliminar }) {
     return (
         <Card className="h-100 shadow-sm bg-dark text-white border-secondary">
             <Image
@@ -20,8 +20,13 @@ function TarjetaProductoAdmin({ product }) {
                 />
 
                 <div className="d-flex gap-2 mt-3">
-                    <Boton>Editar</Boton>
-                    <Boton>Eliminar</Boton>
+                   <Boton onClick={() => onEditar(product)}>
+                        Editar
+                    </Boton>
+
+                    <Boton onClick={() => onEliminar(product)}>
+                        Eliminar
+                    </Boton>
                 </div>
             </Card.Body>
         </Card>

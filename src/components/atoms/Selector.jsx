@@ -1,8 +1,10 @@
-function Selector({opciones}) {
+function Selector({opciones, value, onChange}) {
     return (
-        <select>
-            {opciones.map((opcion, index) => (
-                <option key={index} value={opcion}> {opcion} </option>
+        <select value={value} onChange={onChange}>
+            {opciones.map((opcion) => (
+                <option key={opcion} value={opcion}>
+                    {opcion}
+                </option>
             ))}
         </select>
     )

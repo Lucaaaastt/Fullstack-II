@@ -4,43 +4,35 @@ import { Texto } from '../components/atoms/Texto';
 import FiltrosProductos from '../components/organisms/FiltrosProductos';
 import ListaProductos from '../components/organisms/ListaProductos';
 import ModalEditarProducto from '../components/organisms/ModalEditarProducto';
+import ModalEliminarProducto from '../components/organisms/ModalEliminarProducto';
 import products from '../data/products';
-
 
 function GestionProductos() {
     const [busqueda, setBusqueda] = useState('');
     const [orden, setOrden] = useState('Nombre (A-Z)');
-    const [productoEditar, setProductoEditar] = useState(null);
-    const [mostrarModal, setMostrarModal] = useState(false);
     const [productos, setProductos] = useState(products);
+    const [productoEditar, setProductoEditar] = useState(null);
+    const [productoEliminar, setProductoEliminar] = useState(null);
 
-    function abrirModalEditar(producto) {
-        setProductoEditar(producto);
-        setMostrarModal(true);
-    }
-
-    function cerrarModal() {
-        setMostrarModal(false);
-        setProductoEditar(null);
-    }
-
-    function guardarProducto(productoActualizado) {
-        if (!Number.isFinite(productoActualizado.price) ||
-            productoActualizado.price <= 0) {
-            return;
-        }
+    function guardarProducto(actualizado) {
+        if (!Number.isFinite(actualizado.price) || actualizado.price <= 0) return;
 
         setProductos(actuales =>
             actuales.map(producto =>
-                producto.id === productoActualizado.id
-                    ? productoActualizado
-                    : producto
+                producto.id === actualizado.id ? actualizado : producto
             )
         );
-        cerrarModal();
+        setProductoEditar(null);
     }
 
-    const productosFiltrados = productos.filter((producto) =>
+    function eliminarProducto(eliminado) {
+        setProductos(actuales =>
+            actuales.filter(producto => producto.id !== eliminado.id)
+        );
+        setProductoEliminar(null);
+    }
+
+    const productosFiltrados = productos.filter(producto =>
         producto.name.toLowerCase().includes(busqueda.toLowerCase())
     );
 
@@ -53,8 +45,7 @@ function GestionProductos() {
     } else if (orden === 'Precio: mayor a menor') {
         productosOrdenados.sort((a, b) => b.price - a.price);
     }
-    
-    
+
     return (
         <Container fluid className="gestion-productos">
             <Row>
@@ -69,16 +60,26 @@ function GestionProductos() {
 
                 <Col md={9} className="productos">
                     <Texto variant="h1">Productos</Texto>
-
-                    <ListaProductos productos={productosOrdenados} onEditar={abrirModalEditar}/>
+                    <ListaProductos
+                        productos={productosOrdenados}
+                        onEditar={setProductoEditar}
+                        onEliminar={setProductoEliminar}
+                    />
                 </Col>
             </Row>
 
             <ModalEditarProducto
-                mostrar={mostrarModal}
+                mostrar={Boolean(productoEditar)}
                 producto={productoEditar}
-                onCerrar={cerrarModal}
+                onCerrar={() => setProductoEditar(null)}
                 onGuardar={guardarProducto}
+            />
+
+            <ModalEliminarProducto
+                mostrar={Boolean(productoEliminar)}
+                producto={productoEliminar}
+                onCerrar={() => setProductoEliminar(null)}
+                onEliminar={eliminarProducto}
             />
         </Container>
     );

@@ -1,12 +1,12 @@
 import { Row, Col } from 'react-bootstrap';
 import TarjetaProductoAdmin from '../organisms/TarjetaProductoAdmin';
 
-function ListaProductos({ productos, onEditar }) {
+function ListaProductos({ productos, onEditar, onEliminar }) {
   return (
     <Row className="g-4">
       {productos.map((product) => (
         <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="d-flex align-items-stretch">
-          <TarjetaProductoAdmin product={product} onEditar={onEditar}/>
+          <TarjetaProductoAdmin product={product} onEditar={onEditar} onEliminar={onEliminar}/>
         </Col>
       ))}
     </Row>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Texto } from '../components/atoms/Texto';
 import FiltrosProductos from '../components/organisms/FiltrosProductos';
@@ -6,8 +6,16 @@ import ListaProductos from '../components/organisms/ListaProductos';
 import ModalEditarProducto from '../components/organisms/ModalEditarProducto';
 import ModalEliminarProducto from '../components/organisms/ModalEliminarProducto';
 import products from '../data/products';
+import { esAdmin } from '../context/validacionesLogin.js';
 
 function GestionProductos() {
+
+    useEffect(() => {
+        if (!esAdmin()) {
+            window.location.href = '/';
+        }
+    }, []);
+
     const [busqueda, setBusqueda] = useState('');
     const [orden, setOrden] = useState('Nombre (A-Z)');
     const [productos, setProductos] = useState(products);

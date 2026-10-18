@@ -1,12 +1,19 @@
-export function loginForm(tipo, correo, contrasena) {
-  if (tipo === 'admin') {
-    if (!correo.toLowerCase().endsWith('@gmail.com')) {
-      alert('Error: el correo debe ser de Gmail (@gmail.com).');
-      return;
-    }
+import { validarAdmin } from '../data/admin.js'
 
-    alert(`Correo: ${correo}\nContraseña: ${contrasena}`);
-  } else {
-    alert('ahi va');
-  }
+export function loginForm(tipo, correo, contrasena) {
+    if (tipo === 'admin') {
+        if (!validarAdmin(correo, contrasena)) {
+            alert('Correo o contraseña incorrectos.');
+            return;
+        }
+
+        localStorage.setItem('Admin', 'true');
+        window.location.href = '/admin/productos';
+    } else {
+        alert('ahi va');
+    }
+}
+
+export function esAdmin() {
+    return localStorage.getItem('Admin') === 'true';
 }

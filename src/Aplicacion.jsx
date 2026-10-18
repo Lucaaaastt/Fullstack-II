@@ -7,7 +7,9 @@ import Productos from './pages/Productos'
 import DetalleProducto from './pages/DetalleProducto'
 import SobreNosotros from './pages/SobreNosotros'
 import Carro from './pages/Carro'
+import GestionProductos from './pages/GestionProductos'
 import '../style/Aplicacion.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Aplicacion() {
   const navItems = [
@@ -36,6 +38,7 @@ function Aplicacion() {
           <Route path="/productos/:id" element={<DetalleProducto />} />
           <Route path="/sobre-nosotros" element={<SobreNosotros />} />
           <Route path='/carro' element={<Carro/>}/>
+          <Route path="/admin/productos" element={<GestionProductos />} />
         </Routes>
       </main>
       <Footer items={footerItems} />

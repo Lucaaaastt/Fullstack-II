@@ -111,5 +111,7 @@ code {
   background: var(--code-bg);
 }
 
-
+.boton-cerrar-login {
+  color: var(--bg) !important;
+} 
 

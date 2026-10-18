@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Boton } from '../atoms/Boton';
+import { loginForm } from '../../context/validacionesLogin';
 
-export function FormularioLogin({ mostrar, onCerrar }) {
+export function FormularioLogin({ mostrar, onCerrar, tipo }) {
   const [mensaje, setMensaje] = useState('');
 
   function cerrar() {
@@ -11,9 +12,14 @@ export function FormularioLogin({ mostrar, onCerrar }) {
   }
 
   function enviar(evento) {
-    evento.preventDefault();
-    setMensaje('El formulario está listo. La comprobación de usuarios aún está pendiente.');
-  }
+  evento.preventDefault();
+
+  const campos = new FormData(evento.currentTarget);
+  const correo = campos.get('correo') || '';
+  const contrasena = campos.get('contrasena') || '';
+
+  loginForm(tipo, correo, contrasena);
+}
 
   return (
     <Modal show={mostrar} onHide={cerrar} centered aria-labelledby="titulo-login">
@@ -43,7 +49,7 @@ export function FormularioLogin({ mostrar, onCerrar }) {
           />
 
           <div className="d-flex justify-content-end gap-2">
-            <Boton className="header-button" onClick={cerrar}>Cerrar</Boton>
+            <Boton className="header-button boton-cerrar-login" onClick={cerrar}>Cerrar</Boton>
             <Boton type="submit" className="header-button header-button-register">Ingresar</Boton>
           </div>
           <p role="status" className="mt-3">{mensaje}</p>

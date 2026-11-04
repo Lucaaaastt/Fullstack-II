@@ -5,7 +5,7 @@ import FiltrosProductos from '../components/organisms/FiltrosProductos';
 import ListaProductos from '../components/organisms/ListaProductos';
 import ModalEditarProducto from '../components/organisms/ModalEditarProducto';
 import ModalEliminarProducto from '../components/organisms/ModalEliminarProducto';
-import products from '../data/products';
+import { useProductos } from '../context/ProductosContext';
 import { esAdmin } from '../context/validacionesLogin.js';
 
 function GestionProductos() {
@@ -18,7 +18,7 @@ function GestionProductos() {
 
     const [busqueda, setBusqueda] = useState('');
     const [orden, setOrden] = useState('Nombre (A-Z)');
-    const [productos, setProductos] = useState(products);
+    const { productos, setProductos } = useProductos();
     const [productoEditar, setProductoEditar] = useState(null);
     const [productoEliminar, setProductoEliminar] = useState(null);
 

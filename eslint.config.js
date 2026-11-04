@@ -28,4 +28,10 @@ export default defineConfig([
       'react-refresh/only-export-components': ['error', { allowExportNames: ['useCart'] }],
     },
   },
+  {
+    files: ['src/context/ProductosContext.jsx'],
+    rules: {
+      'react-refresh/only-export-components': ['error', { allowExportNames: ['useProductos'] }],
+    },
+  },
 ])

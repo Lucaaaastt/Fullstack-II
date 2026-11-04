@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Header } from './components/organisms/Header'
 import { Footer } from './components/organisms/Footer'
 import { CartProvider } from './context/CartContext'
+import { ProductosProvider } from './context/ProductosContext'
 import Inicio from './pages/Inicio'
 import Productos from './pages/Productos'
 import DetalleProducto from './pages/DetalleProducto'
@@ -29,20 +30,22 @@ function Aplicacion() {
   ]
 
   return (
-    <CartProvider>
-      <Header items={navItems} />
-      <main className="page-content">
-        <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/productos" element={<Productos />} />
-          <Route path="/productos/:id" element={<DetalleProducto />} />
-          <Route path="/sobre-nosotros" element={<SobreNosotros />} />
-          <Route path='/carro' element={<Carro/>}/>
-          <Route path="/admin/productos" element={<GestionProductos />} />
-        </Routes>
-      </main>
-      <Footer items={footerItems} />
-    </CartProvider>
+    <ProductosProvider>
+      <CartProvider>
+        <Header items={navItems} />
+        <main className="page-content">
+          <Routes>
+            <Route path="/" element={<Inicio />} />
+            <Route path="/productos" element={<Productos />} />
+            <Route path="/productos/:id" element={<DetalleProducto />} />
+            <Route path="/sobre-nosotros" element={<SobreNosotros />} />
+            <Route path='/carro' element={<Carro/>}/>
+            <Route path="/admin/productos" element={<GestionProductos />} />
+          </Routes>
+        </main>
+        <Footer items={footerItems} />
+      </CartProvider>
+    </ProductosProvider>
   )
 }
 

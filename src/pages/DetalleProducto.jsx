@@ -3,7 +3,7 @@ import { Container, Card, Row, Col, Modal, Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { Texto } from "../components/atoms/Texto";
 import { useCart } from "../context/CartContext";
-import products from "../data/products";
+import { useProductos } from '../context/ProductosContext';
 import Image from "../components/atoms/Image";
 import '../../style/DetalleProducto.css';
 
@@ -13,7 +13,8 @@ function ProductoDetalle() {
   const { addToCart } = useCart();
   const [showModal, setShowModal] = useState(false);
 
-  const producto = products.find((p) => String(p.id) === id);
+  const { productos } = useProductos();
+  const producto = productos.find((p) => String(p.id) === id);
 
   if (!producto) {
     return (

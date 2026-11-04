@@ -1,9 +1,10 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useContext } from 'react';
+import { useListaPersistente } from './useListaPersistente';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useListaPersistente('jdr-carrito', []);
 
   // Agregar un producto al carro
   const addToCart = (product) => {

@@ -20,6 +20,14 @@ Proyecto de una tienda de videojuegos desarrollado con React y organizado median
 - Bootstrap y React Bootstrap
 - Vite
 
+## Persistencia local
+
+Se agregó persistencia de las listas de productos y del carrito mediante
+`localStorage`, para conservar los datos al recargar. Los cambios del administrador
+se reflejan en el catálogo, el detalle y las novedades. Se mantiene la estructura
+actual, sin backend ni dependencias nuevas. Los datos se guardan solo en el mismo
+navegador y sitio.
+
 ## Pruebas unitarias
 
 Las pruebas utilizan Jasmine, Karma y React Testing Library.

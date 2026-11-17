@@ -7,7 +7,9 @@ export function ProductosProvider({ children }) {
   const [productos, setProductos] = useState(products);
 
   useEffect(() => {
-    fetch('/api/productos')
+    const API_URL = import.meta.env.VITE_API_URL || '';
+
+    fetch(`${API_URL}/api/productos`)
       .then((respuesta) => {
         if (!respuesta.ok) {
           throw new Error('Error al obtener los productos del servidor');

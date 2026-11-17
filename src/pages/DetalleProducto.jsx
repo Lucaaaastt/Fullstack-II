@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { Container, Card, Row, Col, Modal, Button } from "react-bootstrap";
+import { useState, useEffect } from 'react';
+import { Container, Card, Row, Col, Modal, Button, Badge } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { Texto } from "../components/atoms/Texto";
 import { useCart } from "../context/CartContext";
-import { useProductos } from '../context/ProductosContext';
 import Image from "../components/atoms/Image";
 import '../../style/DetalleProducto.css';
 
@@ -11,10 +10,52 @@ function ProductoDetalle() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+
+  const [producto, setProducto] = useState(null);
+  const [cargando, setCargando] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  const { productos } = useProductos();
-  const producto = productos.find((p) => String(p.id) === id);
+  useEffect(() => {
+    const cargarDetalle = async () => {
+      try {
+        setCargando(true);
+        const respuesta = await fetch(`/api/productos/${id}`);
+
+        if (!respuesta.ok) {
+          setProducto(null);
+          return;
+        }
+
+        const data = await respuesta.json();
+
+        // Normalizamos los campos del backend al formato que usa el carrito y la vista
+        setProducto({
+          id: data.id,
+          name: data.nombre ?? data.name,
+          description: data.descripcion ?? data.description ?? 'Sin descripción disponible.',
+          price: data.precio ?? data.price,
+          image: data.imagenUrl ?? data.imagen ?? data.image,
+          stock: data.stock,
+          category: data.categoria?.nombre ?? data.categoria ?? data.category,
+        });
+      } catch (error) {
+        console.error('Error al cargar detalle del producto:', error);
+        setProducto(null);
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    cargarDetalle();
+  }, [id]);
+
+  if (cargando) {
+    return (
+      <Container className="my-5 text-center text-white">
+        <h3>Cargando detalles del juego...</h3>
+      </Container>
+    );
+  }
 
   if (!producto) {
     return (
@@ -49,17 +90,31 @@ function ProductoDetalle() {
             />
           </Col>
           <Col md={7} className="text-center text-md-start">
+            {producto.category && (
+              <Badge bg="secondary" className="mb-2 text-uppercase">
+                {producto.category}
+              </Badge>
+            )}
             <Texto variant="h2" className="fw-bold mb-3">{producto.name}</Texto>
-            <Texto variant="p" className="text-light mb-4 lead">{producto.description}</Texto>
+            <Texto variant="p" className="text-light mb-3 lead">{producto.description}</Texto>
+            
+            {producto.stock !== undefined && (
+              <p className="text-info mb-3">
+                Stock disponible: <strong>{producto.stock} unidades</strong>
+              </p>
+            )}
+
             <Texto variant="h3" className="text-danger fw-bold mb-4">${producto.price}</Texto>
+            
             <div className="d-flex gap-3 justify-content-center justify-content-md-start flex-wrap">
               <Button 
                 variant="danger" 
                 size="lg" 
                 className="px-4 fw-semibold" 
                 onClick={handleAddToCart}
+                disabled={producto.stock === 0}
               >
-                AGREGAR A CARRO
+                {producto.stock === 0 ? 'SIN STOCK' : 'AGREGAR A CARRO'}
               </Button>
 
               <Button 
@@ -72,7 +127,6 @@ function ProductoDetalle() {
               </Button>
             </div>
           </Col>
-
         </Row>
       </Card>
 

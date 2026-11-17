@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import ListaCarro from '../components/organisms/ListaCarro'
 import ResumenCarro from '../components/molecules/ResumenCarro'
@@ -13,10 +14,51 @@ export function Carro() {
     total,
   } = useCart()
 
-  const handleCheckout = () => {
-    if (cartItems.length === 0) return
-    alert('¡Gracias por tu compra! Procesando pedido...')
-    clearCart()
+  const [procesando, setProcesando] = useState(false)
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0 || procesando) return
+
+    // Si hay un usuario guardado en localStorage con id, lo usa; si no, usa el ID 1 por defecto
+    const usuarioGuardado = JSON.parse(localStorage.getItem('usuario') || 'null')
+    const usuarioId = usuarioGuardado?.id || 1
+
+    const ventaPayload = {
+      usuarioId: usuarioId,
+      detalles: cartItems.map((item) => ({
+        productoId: item.id,
+        cantidad: item.quantity,
+      })),
+    }
+
+    try {
+      setProcesando(true)
+
+      const respuesta = await fetch('/api/ventas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ventaPayload),
+      })
+
+      const data = await respuesta.json().catch(() => null)
+
+      if (!respuesta.ok) {
+        const mensajeError =
+          data?.detail || data?.mensaje || 'No se pudo registrar la compra'
+        throw new Error(mensajeError)
+      }
+
+      console.log('Venta registrada en el backend:', data)
+      alert(`¡Compra realizada con éxito! N° de orden: ${data.id}`)
+      clearCart()
+    } catch (error) {
+      console.error('Error al procesar la compra:', error)
+      alert(`Error al procesar la compra: ${error.message}`)
+    } finally {
+      setProcesando(false)
+    }
   }
 
   return (

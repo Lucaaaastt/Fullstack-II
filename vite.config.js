@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://tienda-prueba-1-8lzx.onrender.com',
+        target: 'https://tienda-jdr-backend.onrender.com',
         changeOrigin: true,
       },
     },

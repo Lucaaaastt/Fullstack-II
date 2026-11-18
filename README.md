@@ -1,4 +1,4 @@
-Tienda JDR (https://vercel.com/lt-92cb/fullstack-2)
+[Tienda JDR — abrir aplicación](https://fullstack-2-jet.vercel.app/)
 
 ## Evaluacion 2 - Fullstack II
 

@@ -7,7 +7,7 @@ import { Novedad } from '../../data/novedad';
 export function Carrusel() {
   const navigate = useNavigate();
   const { productos } = useProductos();
-  const juegosNovedad = Novedad.map(game => productos.find(producto => producto.id === game.id)).filter(Boolean);
+  const juegosNovedad = productos.filter(producto => producto.novedad ?? Novedad.some(game => game.id === producto.id));
 
   return (
     <section className="hero-banner my-4">

@@ -6,7 +6,7 @@ import { useProductos } from '../../context/ProductosContext';
 
 export function Novedades() {
   const { productos } = useProductos();
-  const novedades = Novedad.map(game => productos.find(producto => producto.id === game.id)).filter(Boolean);
+  const novedades = productos.filter(producto => producto.novedad ?? Novedad.some(game => game.id === producto.id));
   return (
     <section className="py-4">
       <Container>

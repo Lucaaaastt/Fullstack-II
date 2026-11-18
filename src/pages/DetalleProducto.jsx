@@ -13,8 +13,11 @@ function ProductoDetalle() {
   const { addToCart } = useCart();
   const [showModal, setShowModal] = useState(false);
 
-  const { productos } = useProductos();
+  const { productos, cargando, error } = useProductos();
   const producto = productos.find((p) => String(p.id) === id);
+
+  if (cargando) return <p role="status">Cargando producto...</p>;
+  if (error) return <p role="alert">{error}</p>;
 
   if (!producto) {
     return (

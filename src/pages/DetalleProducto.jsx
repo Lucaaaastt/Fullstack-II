@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Card, Row, Col, Modal, Button } from "react-bootstrap";
+import { Container, Card, Row, Col, Modal, Button, Badge } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { Texto } from "../components/atoms/Texto";
 import { useCart } from "../context/CartContext";
@@ -16,8 +16,21 @@ function ProductoDetalle() {
   const { productos, cargando, error } = useProductos();
   const producto = productos.find((p) => String(p.id) === id);
 
-  if (cargando) return <p role="status">Cargando producto...</p>;
-  if (error) return <p role="alert">{error}</p>;
+  if (cargando) {
+    return (
+      <Container className="my-5 text-center text-white">
+        <p role="status">Cargando producto...</p>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="my-5 text-center text-white">
+        <p role="alert">{error}</p>
+      </Container>
+    );
+  }
 
   if (!producto) {
     return (
@@ -52,17 +65,31 @@ function ProductoDetalle() {
             />
           </Col>
           <Col md={7} className="text-center text-md-start">
+            {producto.category && (
+              <Badge bg="secondary" className="mb-2 text-uppercase">
+                {producto.category}
+              </Badge>
+            )}
             <Texto variant="h2" className="fw-bold mb-3">{producto.name}</Texto>
-            <Texto variant="p" className="text-light mb-4 lead">{producto.description}</Texto>
+            <Texto variant="p" className="text-light mb-3 lead">{producto.description}</Texto>
+            
+            {producto.stock !== undefined && (
+              <p className="text-info mb-3">
+                Stock disponible: <strong>{producto.stock} unidades</strong>
+              </p>
+            )}
+
             <Texto variant="h3" className="text-danger fw-bold mb-4">${producto.price}</Texto>
+            
             <div className="d-flex gap-3 justify-content-center justify-content-md-start flex-wrap">
               <Button 
                 variant="danger" 
                 size="lg" 
                 className="px-4 fw-semibold" 
                 onClick={handleAddToCart}
+                disabled={producto.stock === 0}
               >
-                AGREGAR A CARRO
+                {producto.stock === 0 ? 'SIN STOCK' : 'AGREGAR A CARRO'}
               </Button>
 
               <Button 
@@ -75,7 +102,6 @@ function ProductoDetalle() {
               </Button>
             </div>
           </Col>
-
         </Row>
       </Card>
 

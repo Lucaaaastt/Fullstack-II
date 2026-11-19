@@ -10,6 +10,7 @@ import SobreNosotros from './pages/SobreNosotros'
 import Carro from './pages/Carro'
 import GestionProductos from './pages/GestionProductos'
 import '../style/Aplicacion.css'
+import DetalleCompra from './pages/DetalleCompra'
 
 
 function Aplicacion() {
@@ -41,6 +42,7 @@ function Aplicacion() {
             <Route path="/sobre-nosotros" element={<SobreNosotros />} />
             <Route path='/carro' element={<Carro/>}/>
             <Route path="/admin/productos" element={<GestionProductos />} />
+            <Route path='/detalle-compra' element={<DetalleCompra/>}/>
           </Routes>
         </main>
         <Footer items={footerItems} />

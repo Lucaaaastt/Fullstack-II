@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useCart } from '../context/CartContext'
+import { useNavigate } from 'react-router-dom'
 import ListaCarro from '../components/organisms/ListaCarro'
 import ResumenCarro from '../components/molecules/ResumenCarro'
 import '../../style/Carro.css'
@@ -15,6 +16,7 @@ export function Carro() {
   } = useCart()
 
   const [procesando, setProcesando] = useState(false)
+  const navigate = useNavigate()
 
   const handleCheckout = async () => {
     if (cartItems.length === 0 || procesando) return
@@ -52,7 +54,15 @@ export function Carro() {
 
       console.log('Venta registrada en el backend:', data)
       alert(`¡Compra realizada con éxito! N° de orden: ${data.id}`)
+      const resumenCompra = {
+        idVenta: data?.id,
+        fecha:new Date().toLocaleString('es-CL'),
+        items: [...cartItems],
+        total: total,
+      }
+
       clearCart()
+      navigate('/detalle-compra', { state: { compra:resumenCompra } })
     } catch (error) {
       console.error('Error al procesar la compra:', error)
       alert(`Error al procesar la compra: ${error.message}`)

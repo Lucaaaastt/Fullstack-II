@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Container, Card, Row, Col, Modal, Button, Badge } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { Texto } from "../components/atoms/Texto";
 import { useCart } from "../context/CartContext";
+import { useProductos } from '../context/ProductosContext';
 import Image from "../components/atoms/Image";
 import '../../style/DetalleProducto.css';
 
@@ -10,49 +11,23 @@ function ProductoDetalle() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-
-  const [producto, setProducto] = useState(null);
-  const [cargando, setCargando] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    const cargarDetalle = async () => {
-      try {
-        setCargando(true);
-        const respuesta = await fetch(`/api/productos/${id}`);
-
-        if (!respuesta.ok) {
-          setProducto(null);
-          return;
-        }
-
-        const data = await respuesta.json();
-
-        // Normalizamos los campos del backend al formato que usa el carrito y la vista
-        setProducto({
-          id: data.id,
-          name: data.nombre ?? data.name,
-          description: data.descripcion ?? data.description ?? 'Sin descripción disponible.',
-          price: data.precio ?? data.price,
-          image: data.imagenUrl ?? data.imagen ?? data.image,
-          stock: data.stock,
-          category: data.categoria?.nombre ?? data.categoria ?? data.category,
-        });
-      } catch (error) {
-        console.error('Error al cargar detalle del producto:', error);
-        setProducto(null);
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    cargarDetalle();
-  }, [id]);
+  const { productos, cargando, error } = useProductos();
+  const producto = productos.find((p) => String(p.id) === id);
 
   if (cargando) {
     return (
       <Container className="my-5 text-center text-white">
-        <h3>Cargando detalles del juego...</h3>
+        <p role="status">Cargando producto...</p>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="my-5 text-center text-white">
+        <p role="alert">{error}</p>
       </Container>
     );
   }

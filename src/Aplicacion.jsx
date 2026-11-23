@@ -11,6 +11,7 @@ import Carro from './pages/Carro'
 import GestionProductos from './pages/GestionProductos'
 import '../style/Aplicacion.css'
 import DetalleCompra from './pages/DetalleCompra'
+import Login from './pages/Login'
 
 
 function Aplicacion() {
@@ -43,6 +44,7 @@ function Aplicacion() {
             <Route path='/carro' element={<Carro/>}/>
             <Route path="/admin/productos" element={<GestionProductos />} />
             <Route path='/detalle-compra' element={<DetalleCompra/>}/>
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         <Footer items={footerItems} />

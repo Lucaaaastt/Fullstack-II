@@ -1,10 +1,11 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useListaPersistente } from './useListaPersistente';
+import { obtenerUsuario } from './validacionesLogin'; // <--- NUEVO
 
 const CartContext = createContext();
 
-export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useListaPersistente('jdr-carrito', []);
+function CartProviderPorClave({ claveCarrito, children }) {
+  const [cartItems, setCartItems] = useListaPersistente(claveCarrito, []);
 
   // Agregar un producto al carro
   const addToCart = (product) => {
@@ -69,6 +70,28 @@ export function CartProvider({ children }) {
     >
       {children}
     </CartContext.Provider>
+  );
+}
+
+export function CartProvider({ children }) {
+  const [usuario, setUsuario] = useState(obtenerUsuario);
+
+  useEffect(() => {
+    const actualizarUsuario = () => setUsuario(obtenerUsuario());
+    window.addEventListener('sesion-actualizada', actualizarUsuario);
+    window.addEventListener('storage', actualizarUsuario);
+    return () => {
+      window.removeEventListener('sesion-actualizada', actualizarUsuario);
+      window.removeEventListener('storage', actualizarUsuario);
+    };
+  }, []);
+
+  const claveCarrito = usuario ? `jdr-carrito-${usuario.id}` : 'jdr-carrito';
+
+  return (
+    <CartProviderPorClave key={claveCarrito} claveCarrito={claveCarrito}>
+      {children}
+    </CartProviderPorClave>
   );
 }
 

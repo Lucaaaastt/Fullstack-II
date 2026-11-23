@@ -2,6 +2,10 @@ function datosPublicos(usuario) {
   return { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol };
 }
 
+function notificarCambioSesion() {
+  window.dispatchEvent(new Event('sesion-actualizada'))
+}
+
 export function obtenerUsuario() {
   try {
     const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
@@ -18,12 +22,14 @@ export function guardarUsuario(usuario) {
   const datos = datosPublicos(usuario);
   localStorage.setItem('usuario', JSON.stringify(datos));
   localStorage.removeItem('Admin');
+  notificarCambioSesion();
   return datos;
 }
 
 export function cerrarSesion() {
   localStorage.removeItem('usuario');
   localStorage.removeItem('Admin');
+  notificarCambioSesion();
 }
 
 export function esAdmin() {

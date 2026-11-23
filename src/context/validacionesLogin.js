@@ -1,19 +1,31 @@
-import { validarAdmin } from '../data/admin.js'
+function datosPublicos(usuario) {
+  return { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol };
+}
 
-export function loginForm(tipo, correo, contrasena) {
-    if (tipo === 'admin') {
-        if (!validarAdmin(correo, contrasena)) {
-            alert('Correo o contraseña incorrectos.');
-            return;
-        }
+export function obtenerUsuario() {
+  try {
+    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+    if (!usuario || !Number.isSafeInteger(usuario.id) || usuario.id <= 0
+      || typeof usuario.nombre !== 'string' || typeof usuario.correo !== 'string'
+      || !['CLIENTE', 'ADMIN'].includes(usuario.rol)) return null;
+    return datosPublicos(usuario);
+  } catch {
+    return null;
+  }
+}
 
-        localStorage.setItem('Admin', 'true');
-        window.location.href = '/admin/productos';
-    } else {
-        alert('ahi va');
-    }
+export function guardarUsuario(usuario) {
+  const datos = datosPublicos(usuario);
+  localStorage.setItem('usuario', JSON.stringify(datos));
+  localStorage.removeItem('Admin');
+  return datos;
+}
+
+export function cerrarSesion() {
+  localStorage.removeItem('usuario');
+  localStorage.removeItem('Admin');
 }
 
 export function esAdmin() {
-    return localStorage.getItem('Admin') === 'true';
+    return obtenerUsuario()?.rol === 'ADMIN';
 }

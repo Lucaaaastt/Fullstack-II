@@ -8,6 +8,7 @@ describe('Organismo FormularioLogin', () => {
 
   beforeEach(() => {
     mockOnCerrar = jasmine.createSpy('onCerrar');
+    localStorage.removeItem('usuario');
   });
 
   it('LOG-01: muestra el titulo y los campos de entrada obligatorios cuando mostrar es true', () => {
@@ -27,13 +28,16 @@ describe('Organismo FormularioLogin', () => {
     expect(mockOnCerrar).toHaveBeenCalledTimes(1);
   });
 
-  it('LOG-03: rechaza credenciales incorrectas de administrador', () => {
-    // Reviso el aviso actual sin abrir alertas ni iniciar una sesion.
-    const aviso = spyOn(window, 'alert');
+  it('LOG-03: muestra el rechazo de credenciales devuelto por la API', async () => {
+    spyOn(window, 'fetch').and.resolveTo(new Response(
+      JSON.stringify({ detail: 'Correo o contraseña incorrectos' }), { status: 401 }
+    ));
     render(<FormularioLogin mostrar={true} onCerrar={mockOnCerrar} tipo="admin" />);
     fireEvent.change(screen.getByLabelText(/correo/i), { target: { value: 'usuario@prueba.com' } });
     fireEvent.change(screen.getByLabelText(/Contrase/i), { target: { value: 'incorrecta' } });
     fireEvent.click(screen.getByRole('button', { name: 'Ingresar' }));
-    expect(aviso).toHaveBeenCalledOnceWith(jasmine.stringMatching(/incorrectos/));
+    expect(await screen.findByText('Correo o contraseña incorrectos')).toBeTruthy();
+    expect(localStorage.getItem('usuario')).toBeNull();
+    expect(mockOnCerrar).not.toHaveBeenCalled();
   });
 });

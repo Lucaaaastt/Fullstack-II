@@ -3,19 +3,24 @@ import { Modal } from 'react-bootstrap';
 import { Boton } from '../atoms/Boton';
 import { DatosFormulario } from '../molecules/DatosFormulario';
 import { validarCuenta } from '../../context/validacionesCuenta';
+import { guardarUsuario } from '../../context/validacionesLogin';
+import { iniciarSesion, registrarUsuario } from '../../services/usuarios';
 
-export function FormularioCuenta({ tipo, onCerrar }) {
+export function FormularioCuenta({ tipo, onCerrar, onAutenticado }) {
   const [mensaje, setMensaje] = useState('');
+  const [enviando, setEnviando] = useState(false);
   const registro = tipo === 'registro';
   const titulo = registro ? 'Registrarse' : 'Iniciar sesión';
 
   function cerrar() {
+    if (enviando) return;
     setMensaje('');
     onCerrar();
   }
 
-  function enviar(evento) {
+  async function enviar(evento) {
     evento.preventDefault();
+    if (enviando) return;
 
     // Tomo lo que escribieron en los campos usando sus nombres.
     const campos = new FormData(evento.currentTarget);
@@ -26,9 +31,27 @@ export function FormularioCuenta({ tipo, onCerrar }) {
       confirmarContrasena: campos.get('confirmarContrasena') || '',
     };
 
-    // La validación está en context, acá solo muestro el resultado.
     const error = validarCuenta(datos, registro);
-    setMensaje(error || 'Campos correctos. Todavía no se crean cuentas ni se inicia sesión.');
+    if (error) {
+      setMensaje(error);
+      return;
+    }
+
+    setEnviando(true);
+    setMensaje(registro ? 'Creando cuenta...' : 'Iniciando sesión...');
+    try {
+      const usuario = await (registro ? registrarUsuario(datos) : iniciarSesion(datos));
+      if (tipo === 'admin' && usuario.rol !== 'ADMIN') {
+        throw new Error('Esta cuenta no tiene acceso de administrador.');
+      }
+      const sesion = guardarUsuario(usuario);
+      onAutenticado?.(sesion);
+      onCerrar();
+    } catch (error) {
+      setMensaje(error.message);
+    } finally {
+      setEnviando(false);
+    }
   }
 
   return (
@@ -38,14 +61,16 @@ export function FormularioCuenta({ tipo, onCerrar }) {
       </Modal.Header>
       <Modal.Body className="cuenta-panel">
         {/* Uso mis mensajes en español en vez de los avisos del navegador. */}
-        <form noValidate onSubmit={enviar} onInput={() => setMensaje('')}>
-          <DatosFormulario key={tipo} registro={registro} />
-          <div className="d-flex justify-content-end gap-2">
-            <Boton className="header-button" onClick={cerrar}>Cerrar</Boton>
-            <Boton type="submit" className="header-button header-button-register">
-              {registro ? 'Registrarse' : 'Ingresar'}
-            </Boton>
-          </div>
+        <form noValidate onSubmit={enviar} onInput={() => { if (!enviando) setMensaje(''); }}>
+          <fieldset disabled={enviando}>
+            <DatosFormulario key={tipo} registro={registro} />
+            <div className="d-flex justify-content-end gap-2">
+              <Boton className="header-button" onClick={cerrar} disabled={enviando}>Cerrar</Boton>
+              <Boton type="submit" className="header-button header-button-register" disabled={enviando}>
+                {registro ? 'Registrarse' : 'Ingresar'}
+              </Boton>
+            </div>
+          </fieldset>
           <p role="status" className="mt-3 mb-0">{mensaje}</p>
         </form>
       </Modal.Body>

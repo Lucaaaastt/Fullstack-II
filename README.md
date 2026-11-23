@@ -40,11 +40,24 @@ Para verificar el despliegue, abrir el dominio de producción indicado en Vercel
 Una redirección al inicio de sesión de Vercel corresponde a la protección del
 despliegue; debe revisarse el dominio de producción y Deployment Protection.
 
+## Usuario real
+
+El registro crea un usuario con `POST /api/usuarios` y el login comprueba sus
+credenciales con `POST /api/usuarios/login`. Al registrarse o entrar correctamente,
+la cabecera muestra su nombre. La sesión se conserva al recargar y se puede cerrar
+desde la cabecera.
+
+En `localStorage.usuario` se guardan únicamente `id`, `nombre`, `correo` y `rol`
+devueltos por la API, sin contraseña. El acceso visual al administrador utiliza
+el rol del usuario. Esta identificación básica no crea una sesión autenticada
+ni permisos en el servidor.
+
 ## Pruebas unitarias
 
 Las pruebas utilizan Jasmine, Karma y React Testing Library.
 
-Se implementaron **64 pruebas**: tres casos para cada uno de los **21 componentes probados**, mas una prueba basica para comprobar el entorno de testing.
+Se implementaron **74 pruebas**: las 64 pruebas de componentes y entorno, más 10
+casos del flujo de registro, login, persistencia y cierre de sesión, con la API simulada.
 
 Los archivos estan organizados en `src/test/components`, separados en `atoms`, `molecules` y `organisms`.
 

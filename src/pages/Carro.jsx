@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCart } from '../context/CartContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
+import { obtenerUsuario } from '../context/validacionesLogin'
 import ListaCarro from '../components/organisms/ListaCarro'
 import ResumenCarro from '../components/molecules/ResumenCarro'
 import '../../style/Carro.css'
@@ -16,17 +17,34 @@ export function Carro() {
   } = useCart()
 
   const [procesando, setProcesando] = useState(false)
+  const [usuario, setUsuario] = useState(obtenerUsuario)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const actualizarUsuario = () => setUsuario(obtenerUsuario())
+    window.addEventListener('sesion-actualizada', actualizarUsuario)
+    window.addEventListener('storage', actualizarUsuario)
+    return () => {
+      window.removeEventListener('sesion-actualizada', actualizarUsuario)
+      window.removeEventListener('storage', actualizarUsuario)
+    }
+  }, [])
+
+  if (!usuario) {
+    return <Navigate to="/login" replace />
+  }
 
   const handleCheckout = async () => {
     if (cartItems.length === 0 || procesando) return
 
-    // Si hay un usuario guardado en localStorage con id, lo usa; si no, usa el ID 1 por defecto
-    const usuarioGuardado = JSON.parse(localStorage.getItem('usuario') || 'null')
-    const usuarioId = usuarioGuardado?.id || 1
+    const usuarioActual = obtenerUsuario()
+    if (!usuarioActual) {
+      navigate('/login')
+      return
+    }
 
     const ventaPayload = {
-      usuarioId: usuarioId,
+      usuarioId: usuarioActual.id,
       detalles: cartItems.map((item) => ({
         productoId: item.id,
         cantidad: item.quantity,

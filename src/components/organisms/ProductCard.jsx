@@ -4,6 +4,7 @@ import Image from '../atoms/Image';
 import CardBody from '../molecules/CardBody';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { obtenerUsuario } from '../../context/validacionesLogin';
 import '../../../style/ProductCard.css';
 
 function ProductCard({ product }) {
@@ -14,6 +15,11 @@ function ProductCard({ product }) {
   if (!product) return null;
 
   const handleAddToCart = () => {
+    if (!obtenerUsuario()) {
+      navigate('/login');
+      return;
+    }
+    
     addToCart(product);
     setShowModal(true);
   };

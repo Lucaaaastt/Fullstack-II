@@ -1,8 +1,9 @@
 import '../../setupTests';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { FormularioCuenta } from '../../../components/organisms/FormularioCuenta';
 import { Header } from '../../../components/organisms/Header';
+import Login from '../../../pages/Login';
 import { obtenerUsuario, esAdmin } from '../../../context/validacionesLogin';
 
 describe('Cuenta conectada al backend', () => {
@@ -150,7 +151,10 @@ describe('Cuenta conectada al backend', () => {
 
   it('actualiza la cabecera al entrar, restaura al recargar y permite cerrar sesión', async () => {
     spyOn(window, 'fetch').and.resolveTo(responder(cliente));
-    const vista = render(<MemoryRouter><Header /></MemoryRouter>);
+    const vista = render(<MemoryRouter><Header /><Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<h1>Inicio</h1>} />
+    </Routes></MemoryRouter>);
     fireEvent.click(screen.getByRole('button', { name: 'Iniciar sesión' }));
     llenar();
     expect(await screen.findByText('Hola, Cliente')).toBeTruthy();

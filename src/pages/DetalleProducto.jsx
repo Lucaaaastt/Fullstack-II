@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Texto } from "../components/atoms/Texto";
 import { useCart } from "../context/CartContext";
 import { useProductos } from '../context/ProductosContext';
+import { obtenerUsuario } from '../context/validacionesLogin';
 import Image from "../components/atoms/Image";
 import '../../style/DetalleProducto.css';
 
@@ -44,6 +45,11 @@ function ProductoDetalle() {
   }
 
   const handleAddToCart = () => {
+    if (!obtenerUsuario()) {
+      navigate('/login');
+      return;
+    }
+    
     addToCart(producto);
     setShowModal(true);
   };

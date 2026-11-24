@@ -2,7 +2,7 @@ import { Modal } from 'react-bootstrap';
 import { Boton } from '../atoms/Boton';
 import { Texto } from '../atoms/Texto';
 
-function ModalEliminarProducto({ mostrar, producto, onCerrar, onEliminar }) {
+function ModalEliminarProducto({ mostrar, producto, onCerrar, onEliminar, procesando = false, error = '' }) {
     if (!producto) return null;
 
     function confirmarEliminacion() {
@@ -12,7 +12,7 @@ function ModalEliminarProducto({ mostrar, producto, onCerrar, onEliminar }) {
     return (
         <Modal
             show={mostrar}
-            onHide={onCerrar}
+            onHide={() => { if (!procesando) onCerrar(); }}
             centered
             aria-labelledby="titulo-eliminar-producto"
             data-bs-theme="dark"
@@ -37,6 +37,7 @@ function ModalEliminarProducto({ mostrar, producto, onCerrar, onEliminar }) {
                     <Boton
                         className="header-button"
                         onClick={onCerrar}
+                        disabled={procesando}
                     >
                         Cancelar
                     </Boton>
@@ -44,10 +45,12 @@ function ModalEliminarProducto({ mostrar, producto, onCerrar, onEliminar }) {
                     <Boton
                         className="header-button header-button-register"
                         onClick={confirmarEliminacion}
+                        disabled={procesando}
                     >
-                        Eliminar
+                        {procesando ? 'Eliminando...' : 'Eliminar'}
                     </Boton>
                 </div>
+                {error && <p role="alert">{error}</p>}
             </Modal.Body>
         </Modal>
     );

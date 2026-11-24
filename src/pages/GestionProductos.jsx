@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Boton } from '../components/atoms/Boton';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Texto } from '../components/atoms/Texto';
 import FiltrosProductos from '../components/organisms/FiltrosProductos';
@@ -10,35 +12,49 @@ import { esAdmin } from '../context/validacionesLogin.js';
 
 function GestionProductos() {
 
-    useEffect(() => {
-        if (!esAdmin()) {
-            window.location.href = '/';
-        }
-    }, []);
-
     const [busqueda, setBusqueda] = useState('');
     const [orden, setOrden] = useState('Nombre (A-Z)');
-    const { productos, setProductos } = useProductos();
+    const { productos, cargando, error, guardarProducto: guardarEnApi, eliminarProducto: eliminarEnApi } = useProductos();
     const [productoEditar, setProductoEditar] = useState(null);
     const [productoEliminar, setProductoEliminar] = useState(null);
 
-    function guardarProducto(actualizado) {
-        if (!Number.isFinite(actualizado.price) || actualizado.price <= 0) return;
+    const [creando, setCreando] = useState(false);
+    const [procesando, setProcesando] = useState(false);
+    const [errorOperacion, setErrorOperacion] = useState('');
+    const [aviso, setAviso] = useState('');
 
-        setProductos(actuales =>
-            actuales.map(producto =>
-                producto.id === actualizado.id ? actualizado : producto
-            )
-        );
-        setProductoEditar(null);
+    async function guardarProducto(datos) {
+        if (procesando) return;
+        setProcesando(true);
+        setErrorOperacion('');
+        setAviso('');
+        try {
+            await guardarEnApi(datos);
+            setProductoEditar(null);
+            setCreando(false);
+            setAviso('Producto guardado correctamente.');
+        } catch (error) {
+            setErrorOperacion(error.message);
+        } finally { setProcesando(false); }
     }
 
-    function eliminarProducto(eliminado) {
-        setProductos(actuales =>
-            actuales.filter(producto => producto.id !== eliminado.id)
-        );
-        setProductoEliminar(null);
+    async function eliminarProducto(producto) {
+        if (procesando) return;
+        setProcesando(true);
+        setErrorOperacion('');
+        setAviso('');
+        try {
+            await eliminarEnApi(producto.id);
+            setProductoEliminar(null);
+            setAviso('Producto eliminado correctamente.');
+        } catch (error) {
+            setErrorOperacion(error.message);
+        } finally { setProcesando(false); }
     }
+
+    if (!esAdmin()) return <Navigate to="/login" replace />;
+    if (cargando) return <p role="status">Cargando productos...</p>;
+    if (error) return <p role="alert">{error}</p>;
 
     const productosFiltrados = productos.filter(producto =>
         producto.name.toLowerCase().includes(busqueda.toLowerCase())
@@ -68,22 +84,31 @@ function GestionProductos() {
 
                 <Col md={9} className="productos">
                     <Texto variant="h1">Productos</Texto>
+                    {aviso && <p role="status">{aviso}</p>}
+                    <Boton onClick={() => { setErrorOperacion(''); setCreando(true); }}>Agregar producto</Boton>
+                    {productosOrdenados.length === 0 && <p>No hay productos activos.</p>}
                     <ListaProductos
                         productos={productosOrdenados}
-                        onEditar={setProductoEditar}
-                        onEliminar={setProductoEliminar}
+                        onEditar={producto => { setErrorOperacion(''); setProductoEditar(producto); }}
+                        onEliminar={producto => { setErrorOperacion(''); setProductoEliminar(producto); }}
                     />
                 </Col>
             </Row>
 
-            {productoEditar && <ModalEditarProducto
-                mostrar={Boolean(productoEditar)}
+            {(productoEditar || creando) && <ModalEditarProducto
+                key={productoEditar?.id || 'nuevo'}
+                modoCrear={creando}
+                procesando={procesando}
+                error={errorOperacion}
+                mostrar={Boolean(productoEditar) || creando}
                 producto={productoEditar}
-                onCerrar={() => setProductoEditar(null)}
+                onCerrar={() => { setProductoEditar(null); setCreando(false); }}
                 onGuardar={guardarProducto}
             />}
 
             <ModalEliminarProducto
+                procesando={procesando}
+                error={errorOperacion}
                 mostrar={Boolean(productoEliminar)}
                 producto={productoEliminar}
                 onCerrar={() => setProductoEliminar(null)}

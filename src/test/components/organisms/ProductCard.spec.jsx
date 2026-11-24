@@ -6,6 +6,14 @@ import ProductCard from '../../../components/organisms/ProductCard';
 import { CartProvider } from '../../../context/CartContext';
 
 describe('Organismo ProductCard', () => {
+  beforeEach(() => {
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('jdr-carrito-7');
+  });
+  afterEach(() => {
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('jdr-carrito-7');
+  });
   const productoPrueba = {
     id: 1,
     name: 'Red Dead Redemption 2',
@@ -35,7 +43,10 @@ describe('Organismo ProductCard', () => {
     expect(screen.getByRole('button', { name: /agregar a carro/i })).toBeTruthy();
   });
 
-  it('PC-03: abre el modal de confirmacion al hacer clic en "Agregar a Carro"', () => {
+  it('PC-03: agrega el producto al carrito del usuario que inició sesión', () => {
+    localStorage.setItem('usuario', JSON.stringify({
+      id: 7, nombre: 'Cliente', correo: 'cliente@gmail.com', rol: 'CLIENTE'
+    }));
     renderComponent();
 
     const botonAgregar = screen.getByRole('button', { name: /agregar a carro/i });
@@ -45,5 +56,6 @@ describe('Organismo ProductCard', () => {
     expect(screen.getByText('PRODUCTO AÑADIDO!')).toBeTruthy();
     expect(screen.getByRole('button', { name: /seguir comprando/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /ir a pagar/i })).toBeTruthy();
+    expect(JSON.parse(localStorage.getItem('jdr-carrito-7'))[0].id).toBe(1);
   });
 });

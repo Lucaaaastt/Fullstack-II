@@ -1,10 +1,12 @@
 import '../../setupTests';
 
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { Header } from '../../../components/organisms/Header';
 
 describe('Organismo Header', () => {
+  beforeEach(() => localStorage.removeItem('usuario'));
+  afterEach(() => localStorage.removeItem('usuario'));
   const itemsPrueba = [
     { id: 'inicio', text: 'Inicio', href: '/' },
     { id: 'catalogo', text: 'Catalogo', href: '/productos' }
@@ -25,7 +27,7 @@ describe('Organismo Header', () => {
     expect(screen.getByText('Catalogo')).toBeTruthy();
   });
 
-  it('HEA-02: renderiza los botones de "Iniciar sesión" y "Registrarse"', () => {
+  it('HEA-02: muestra el acceso a la página de cuenta cuando no hay sesión', () => {
     render(
       <MemoryRouter>
         <Header items={itemsPrueba} />
@@ -33,26 +35,21 @@ describe('Organismo Header', () => {
     );
 
     expect(screen.getByRole('button', { name: 'Iniciar sesión' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Registrarse' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Cerrar sesión' })).toBeNull();
   });
 
-  it('HEA-03: abre el modal de FormularioCuenta en modo "login" al hacer clic en "Iniciar sesión"', () => {
-    const { container } = render(
+  it('HEA-03: navega a la página de login al pulsar Iniciar sesión', () => {
+    render(
       <MemoryRouter>
         <Header items={itemsPrueba} />
+        <Routes><Route path="/login" element={<h1>Página de cuenta</h1>} /></Routes>
       </MemoryRouter>
     );
 
     const botonLogin = screen.getByRole('button', { name: 'Iniciar sesión' });
     fireEvent.click(botonLogin);
 
-    // Verificamos que el modal este abierto
-    expect(screen.getByRole('dialog')).toBeTruthy();
-
-    // Consultamos de forma especifica el titulo del modal usando su ID para evitar colisionar con el boton
-    const tituloModal = container.ownerDocument.querySelector('#titulo-cuenta');
-    expect(tituloModal).toBeTruthy();
-    expect(tituloModal.textContent).toBe('Iniciar sesión');
+    expect(screen.getByRole('heading', { name: 'Página de cuenta' })).toBeTruthy();
   });
 });
 

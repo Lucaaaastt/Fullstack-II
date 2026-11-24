@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Enlace } from '../atoms/Enlace';
 import { Boton } from '../atoms/Boton';
 import { Navbar } from '../molecules/Navbar';
@@ -9,11 +9,16 @@ import '../../../style/Navbar.css';
 export function Header({ items = [] }) {
   const [usuario, setUsuario] = useState(obtenerUsuario);
   const navegar = useNavigate();
-  const ubicacion = useLocation();
 
   useEffect(() => {
-    setUsuario(obtenerUsuario());
-  }, [ubicacion]);
+    const actualizarUsuario = () => setUsuario(obtenerUsuario());
+    window.addEventListener('sesion-actualizada', actualizarUsuario);
+    window.addEventListener('storage', actualizarUsuario);
+    return () => {
+      window.removeEventListener('sesion-actualizada', actualizarUsuario);
+      window.removeEventListener('storage', actualizarUsuario);
+    };
+  }, []);
 
   function salir() {
     cerrarSesion();

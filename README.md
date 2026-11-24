@@ -56,8 +56,8 @@ ni permisos en el servidor.
 
 Las pruebas utilizan Jasmine, Karma y React Testing Library.
 
-Se implementaron **74 pruebas**: las 64 pruebas de componentes y entorno, más 10
-casos del flujo de registro, login, persistencia y cierre de sesión, con la API simulada.
+Se implementaron **79 pruebas**: las 64 pruebas de componentes y entorno, más 10
+casos de cuenta y 5 del carrito con login obligatorio, con la API simulada.
 
 Los archivos estan organizados en `src/test/components`, separados en `atoms`, `molecules` y `organisms`.
 

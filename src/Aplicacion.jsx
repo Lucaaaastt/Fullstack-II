@@ -12,6 +12,7 @@ import GestionProductos from './pages/GestionProductos'
 import '../style/Aplicacion.css'
 import DetalleCompra from './pages/DetalleCompra'
 import Login from './pages/Login'
+import HistorialCompras from './pages/HistorialCompras'
 
 
 function Aplicacion() {
@@ -44,6 +45,8 @@ function Aplicacion() {
             <Route path='/carro' element={<Carro/>}/>
             <Route path="/admin/productos" element={<GestionProductos />} />
             <Route path='/detalle-compra' element={<DetalleCompra/>}/>
+            <Route path='/detalle-compra/:id' element={<DetalleCompra/>}/>
+            <Route path='/mis-compras' element={<HistorialCompras/>}/>
             <Route path="/login" element={<Login />} />
           </Routes>
         </main>

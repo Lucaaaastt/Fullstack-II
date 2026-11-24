@@ -56,8 +56,16 @@ ni permisos en el servidor.
 
 Las pruebas utilizan Jasmine, Karma y React Testing Library.
 
-Se implementaron **79 pruebas**: las 64 pruebas de componentes y entorno, más 10
-casos de cuenta y 5 del carrito con login obligatorio, con la API simulada.
+La suite incluye pruebas de componentes, cuenta, carrito, comprobantes e historial,
+con la API simulada para no modificar datos reales.
+
+## Compras
+
+Una compra registrada abre `/detalle-compra/:id`, que consulta la venta en la API
+y muestra su fecha, total y precios unitarios confirmados. El comprobante se puede
+recargar y recuperar desde **Mis compras**. Los nombres e imágenes son los actuales
+del producto; el precio unitario es el que quedó guardado en la venta.
+Registrar una venta no procesa un pago bancario.
 
 Los archivos estan organizados en `src/test/components`, separados en `atoms`, `molecules` y `organisms`.
 

@@ -28,7 +28,7 @@ describe('Carrito con usuario identificado', () => {
       <Route path="/productos/:id" element={<DetalleProducto />} />
       <Route path="/carro" element={<Carro />} />
       <Route path="/login" element={<h1>Acceso requerido</h1>} />
-      <Route path="/detalle-compra" element={<h1>Venta registrada</h1>} />
+      <Route path="/detalle-compra/:id" element={<h1>Venta registrada</h1>} />
     </Routes></CartProvider></MemoryRouter>);
   }
 
@@ -79,13 +79,36 @@ describe('Carrito con usuario identificado', () => {
     localStorage.setItem('usuario', JSON.stringify(cliente));
     localStorage.setItem('jdr-carrito-7', JSON.stringify([producto]));
     spyOn(window, 'fetch').and.resolveTo(new Response(JSON.stringify({ detail: 'Producto no disponible' }), { status: 404 }));
-    const aviso = spyOn(window, 'alert');
-    spyOn(console, 'error');
     abrir('/carro');
     fireEvent.click(screen.getByRole('button', { name: 'Proceder al Pago' }));
 
-    await waitFor(() => { if (!aviso.calls.any()) throw new Error('Esperando respuesta'); });
-    expect(aviso).toHaveBeenCalledWith('Error al procesar la compra: Producto no disponible');
+    expect(await screen.findByRole('alert')).toBeTruthy();
+    expect(screen.getByText('Producto no disponible')).toBeTruthy();
+    expect(JSON.parse(localStorage.getItem('jdr-carrito-7'))).toEqual([producto]);
+  });
+
+  it('bloquea el formulario mientras registra una compra', async () => {
+    localStorage.setItem('usuario', JSON.stringify(cliente));
+    localStorage.setItem('jdr-carrito-7', JSON.stringify([producto]));
+    let resolver;
+    const peticion = spyOn(window, 'fetch').and.returnValue(new Promise(resolve => { resolver = resolve; }));
+    abrir('/carro');
+    fireEvent.click(screen.getByRole('button', { name: 'Proceder al Pago' }));
+    expect(screen.getByRole('button', { name: 'Registrando compra...' }).disabled).toBeTrue();
+    expect(screen.getByRole('button', { name: 'Vaciar Carro' }).disabled).toBeTrue();
+    expect(peticion.calls.count()).toBe(1);
+    resolver(new Response(JSON.stringify({ detail: 'Intenta nuevamente' }), { status: 503 }));
+    await screen.findByText('Intenta nuevamente');
+    await waitFor(() => { if (screen.getByRole('button', { name: 'Proceder al Pago' }).disabled) throw new Error('Esperando formulario'); });
+  });
+
+  it('no vacía el carrito si la respuesta exitosa no incluye una venta válida', async () => {
+    localStorage.setItem('usuario', JSON.stringify(cliente));
+    localStorage.setItem('jdr-carrito-7', JSON.stringify([producto]));
+    spyOn(window, 'fetch').and.resolveTo(new Response('{}', { status: 200 }));
+    abrir('/carro');
+    fireEvent.click(screen.getByRole('button', { name: 'Proceder al Pago' }));
+    await screen.findByText('El servidor no devolvió una venta válida.');
     expect(JSON.parse(localStorage.getItem('jdr-carrito-7'))).toEqual([producto]);
   });
 });

@@ -36,6 +36,7 @@ export function Header({ items = [] }) {
         {usuario ? (
           <>
             <span>Hola, {usuario.nombre}</span>
+            <Enlace href="/mis-compras" className="header-button">Mis compras</Enlace>
             {usuario.rol === 'ADMIN' && (
               <Enlace href="/admin/productos" className="header-button">
                 Administrar productos

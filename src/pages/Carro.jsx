@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useCart } from '../context/CartContext'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { obtenerUsuario } from '../context/validacionesLogin'
+import { crearVenta } from '../services/ventas'
 import ListaCarro from '../components/organisms/ListaCarro'
 import ResumenCarro from '../components/molecules/ResumenCarro'
 import '../../style/Carro.css'
@@ -17,6 +18,7 @@ export function Carro() {
   } = useCart()
 
   const [procesando, setProcesando] = useState(false)
+  const [error, setError] = useState('')
   const [usuario, setUsuario] = useState(obtenerUsuario)
   const navigate = useNavigate()
 
@@ -53,37 +55,12 @@ export function Carro() {
 
     try {
       setProcesando(true)
-
-      const respuesta = await fetch('/api/ventas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(ventaPayload),
-      })
-
-      const data = await respuesta.json().catch(() => null)
-
-      if (!respuesta.ok) {
-        const mensajeError =
-          data?.detail || data?.mensaje || 'No se pudo registrar la compra'
-        throw new Error(mensajeError)
-      }
-
-      console.log('Venta registrada en el backend:', data)
-      alert(`¡Compra realizada con éxito! N° de orden: ${data.id}`)
-      const resumenCompra = {
-        idVenta: data?.id,
-        fecha:new Date().toLocaleString('es-CL'),
-        items: [...cartItems],
-        total: total,
-      }
-
+      setError('')
+      const venta = await crearVenta(ventaPayload)
       clearCart()
-      navigate('/detalle-compra', { state: { compra:resumenCompra } })
+      navigate(`/detalle-compra/${venta.id}`)
     } catch (error) {
-      console.error('Error al procesar la compra:', error)
-      alert(`Error al procesar la compra: ${error.message}`)
+      setError(error.message)
     } finally {
       setProcesando(false)
     }
@@ -92,6 +69,7 @@ export function Carro() {
   return (
     <div className="carro-page">
       <h1 className="titulo-carro">CARRO COMPRAS</h1>
+      {error && <p role="alert">{error}</p>}
 
       {cartItems.length === 0 ? (
         /* VISTA SI EL CARRO ESTÁ VACÍO (SE CENTRA AUTOMÁTICAMENTE) */
@@ -100,7 +78,7 @@ export function Carro() {
         </div>
       ) : (
         /* VISTA DE 2 COLUMNAS SI HAY PRODUCTOS */
-        <div className="carro-contenido">
+        <fieldset className="carro-contenido" disabled={procesando}>
           <div className="carro-lista-container">
             <ListaCarro
               items={cartItems}
@@ -115,9 +93,10 @@ export function Carro() {
               total={total}
               onClear={clearCart}
               onCheckout={handleCheckout}
+              procesando={procesando}
             />
           </div>
-        </div>
+        </fieldset>
       )}
     </div>
   )
